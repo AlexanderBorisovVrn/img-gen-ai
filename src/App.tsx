@@ -1,34 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { FC } from "react";
+import { Home, CreatePost } from "./pages";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {IoMdImages } from 'react-icons/io';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export const App: FC<{}> = () => {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
-
-export default App
+    <BrowserRouter>
+      <header className="w-full flex justify-between items-center bg-white sm:px-8 border-b border-b-[#e6ebf4]">
+        <Link to = '/' className="w-14 h-12 my-2 flex justify-center items-center bg-slate-200 rounded">
+          <IoMdImages color="#464be9" size='38'/>
+        </Link>
+        <Link to='/create-post' className="font-medium bg-[#6469ff] text-white tracking-wide rounded-md px-4 py-2">
+          Create
+        </Link>
+      </header>
+      <main className="sm:p-8 px-4 py-8 w-full"></main>
+    </BrowserRouter>
+  );
+};
