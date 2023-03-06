@@ -1,4 +1,4 @@
-import React, { FC, InputHTMLAttributes } from "react";
+import React, { FC } from "react";
 
 interface IFormField {
   labelName: string;
@@ -10,9 +10,7 @@ interface IFormField {
   handelSupriseMe?: () => void;
   handleChange: () => void;
 }
-interface IInp extends InputHTMLAttributes<HTMLInputElement> {
-  handleChange: () => void;
-}
+
 
 export const FormField: FC<IFormField> = ({
   name,
@@ -51,7 +49,7 @@ export const FormField: FC<IFormField> = ({
         value={value}
         onChange={handleChange}
         required
-        className="bh-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3"
+        className="bh-gray-50  border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3"
       />
     </div>
   );
