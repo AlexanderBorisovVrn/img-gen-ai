@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { ChangeEvent, FC, useState, SyntheticEvent } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IoImageOutline } from 'react-icons/io5';
 
@@ -21,10 +21,17 @@ const CreatePost: FC<{}> = () => {
   });
   const [generatingImg, setGeneratingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
   const handleSubmit = () => { };
-  const handleChange = () => { };
-  const handleSupriseMe = () => { }
+  const handleChange = (e: { target: HTMLInputElement }) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  };
+  const handleSupriseMe = () => {
+    const randomPrompt = getRandomPrompt(form.prompt);
+    setForm({ ...form, prompt: randomPrompt })
+  }
   const generateImg = () => { }
+
   return (
     <section className="max-w-7xl mx-auto">
       <div className="">
