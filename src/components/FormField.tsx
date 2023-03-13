@@ -8,7 +8,7 @@ interface IFormField {
   value: string;
   isSupriseMe?: boolean;
   handelSupriseMe?: () => void;
-  handleChange: () => void;
+  handleChange: (e: { target: HTMLInputElement }) => void;
 }
 
 
