@@ -39,7 +39,10 @@ const CreatePost: FC<{}> = () => {
     setForm({ ...form, prompt: randomPrompt });
     errors.prompt = undefined;
   };
-
+  const handleClear = (event: React.MouseEvent<HTMLElement>) =>{
+    const target = event.target as HTMLButtonElement;
+    setForm({...form,[target.name]:''})
+  }
   const validateName = {
     ...register("name", { required: true, maxLength: 100, minLength: 1 }),
   };
@@ -95,6 +98,7 @@ const CreatePost: FC<{}> = () => {
             placeholder="Alex Bor"
             value={form.name}
             validate={validateName}
+            handleClear={handleClear}
             handleChange={handleChange}
           />
           {errors.name && (
@@ -108,10 +112,10 @@ const CreatePost: FC<{}> = () => {
             value={form.prompt}
             handleChange={handleChange}
             isSupriseMe
+            handleClear={handleClear}
             handelSupriseMe={handleSupriseMe}
             validate={validatePrompt}
           />
-
           {errors.prompt && (
             <div className="text-red-500 text-sm">Prompt required</div>
           )}

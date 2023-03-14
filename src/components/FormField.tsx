@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import {GrClose} from 'react-icons/gr'
+import React, { FC, MouseEventHandler } from "react";
+import { GrClose } from "react-icons/gr";
 
 interface IFormField {
   labelName: string;
@@ -11,6 +11,7 @@ interface IFormField {
   handelSupriseMe?: () => void;
   handleChange: (e: { target: HTMLInputElement }) => void;
   validate?: any;
+  handleClear: (event: React.MouseEvent<HTMLElement>)  => void
 }
 
 export const FormField: FC<IFormField> = ({
@@ -21,6 +22,7 @@ export const FormField: FC<IFormField> = ({
   placeholder,
   handleChange,
   handelSupriseMe,
+  handleClear,
   isSupriseMe,
   validate,
 }) => {
@@ -43,18 +45,27 @@ export const FormField: FC<IFormField> = ({
           </button>
         )}
       </div>
-      <div className="flex relative">
+      <div className="flex">
         <input
           {...validate}
           type={type}
+          autocomplete="off"
           id={name}
           name={name}
           placeholder={placeholder}
           value={value}
           onChange={handleChange}
-          className="bh-gray-50  border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3"
+          className="bh-gray-50  border-2 border-gray-300  text-gray-900 text-sm rounded-l-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block  md:w-[93%] w-[90%] p-3"
         />
-     
+        <button
+          name={name}
+          type="button"
+          title="Clear"
+          onClick={handleClear}
+          className="bg-white hover:bg-[#eceaea] border-2 border-gray-300 border-l-0 rounded-r-lg flex flex-grow items-center justify-center text-gray-600 sm:text-sm text-xs"
+        >
+          &#10006;
+        </button>
       </div>
     </div>
   );
