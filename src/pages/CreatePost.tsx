@@ -12,6 +12,12 @@ interface IForm {
   photo: string;
 }
 
+const initialFormState: IForm = {
+  name: "",
+  prompt: "",
+  photo: "",
+};
+
 const CreatePost: FC<{}> = () => {
   const navigate: NavigateFunction = useNavigate();
   const {
@@ -19,11 +25,8 @@ const CreatePost: FC<{}> = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IForm>();
-  const [form, setForm] = useState<IForm>({
-    name: "",
-    prompt: "",
-    photo: "",
-  });
+
+  const [form, setForm] = useState<IForm>(initialFormState);
   const [generatingImg, setGeneratingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const onSubmit = handleSubmit((data) => console.log(data));
@@ -60,8 +63,14 @@ const CreatePost: FC<{}> = () => {
       const data = await response.text();
 
       setForm({ ...form, photo: `data:image/png;base64, ${data}` });
+      if (response.status === 200) {
+        const data = await response.text();
+        setForm({ ...form, photo: `data:image/png;base64, ${data}` });
+      } else {
+        setForm(initialFormState);
+      }
     } catch (error) {
-      console.log(error);
+      console.log("create post failed " + error);
     } finally {
       setGeneratingImg(false);
     }
@@ -94,9 +103,7 @@ const CreatePost: FC<{}> = () => {
             labelName="Prompt"
             type="text"
             name="prompt"
-            placeholder={
-              'Type your prompt or click on the "Suprise me" button'
-            }
+            placeholder={'Type your prompt or click on the "Suprise me" button'}
             value={form.prompt}
             handleChange={handleChange}
             isSupriseMe
