@@ -12,17 +12,19 @@ interface IForm {
   photo: string;
 }
 
+const initialFormState: IForm = {
+  name: "",
+  prompt: "",
+  photo: "",
+}
+
 const CreatePost: FC<{}> = () => {
   const navigate: NavigateFunction = useNavigate();
-  const [form, setForm] = useState<IForm>({
-    name: "",
-    prompt: "",
-    photo: "",
-  });
+  const [form, setForm] = useState<IForm>(initialFormState);
   const [generatingImg, setGeneratingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => { };
   const handleChange = (e: { target: HTMLInputElement }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -44,11 +46,15 @@ const CreatePost: FC<{}> = () => {
           size: "512x512",
         }),
       });
-      const data = await response.text();
-      
-      setForm({ ...form, photo: `data:image/png;base64, ${data}` });
+      if (response.status === 200) {
+        const data = await response.text();
+        setForm({ ...form, photo: `data:image/png;base64, ${data}` });
+      } else {
+        setForm(initialFormState)
+      }
+
     } catch (error) {
-      console.log(error);
+      console.log('create post failed ' + error);
     } finally {
       setGeneratingImg(false);
     }
