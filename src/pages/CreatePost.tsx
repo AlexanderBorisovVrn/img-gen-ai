@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FC, useState, SyntheticEvent } from "react";
+import { useForm } from "react-hook-form";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IoImageOutline } from "react-icons/io5";
-
 import { FormField } from "../components/FormField";
 import { getRandomPrompt } from "../utils";
-
 import Loader from "../components/Loader";
+
 interface IForm {
   name: string;
   prompt: string;
@@ -14,6 +14,11 @@ interface IForm {
 
 const CreatePost: FC<{}> = () => {
   const navigate: NavigateFunction = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>();
   const [form, setForm] = useState<IForm>({
     name: "",
     prompt: "",
@@ -21,8 +26,8 @@ const CreatePost: FC<{}> = () => {
   });
   const [generatingImg, setGeneratingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const onSubmit = handleSubmit((data) => console.log(data));
 
-  const handleSubmit = () => {};
   const handleChange = (e: { target: HTMLInputElement }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -30,6 +35,14 @@ const CreatePost: FC<{}> = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
     setForm({ ...form, prompt: randomPrompt });
   };
+
+  const validateName = {
+    ...register("name", { required: true, maxLength: 100, minLength: 1 }),
+  };
+  const validatePrompt = {
+    ...register("prompt", { required: true, maxLength: 1000, minLength: 1 }),
+  };
+
   const generateImg = async () => {
     try {
       setGeneratingImg(true);
@@ -45,7 +58,7 @@ const CreatePost: FC<{}> = () => {
         }),
       });
       const data = await response.text();
-      
+
       setForm({ ...form, photo: `data:image/png;base64, ${data}` });
     } catch (error) {
       console.log(error);
@@ -63,7 +76,7 @@ const CreatePost: FC<{}> = () => {
         </p>
       </div>
 
-      <form className="mt-16 max-x-3xl" onSubmit={handleSubmit}>
+      <form className="mt-16 max-x-3xl" onSubmit={onSubmit}>
         <div className="flex flex-col gap-5">
           <FormField
             labelName="Your name"
@@ -71,21 +84,28 @@ const CreatePost: FC<{}> = () => {
             name="name"
             placeholder="Alex Bor"
             value={form.name}
+            validate={validateName}
             handleChange={handleChange}
           />
+          {errors.name && (
+            <div className="text-red-600 text-sm">Name required</div>
+          )}
           <FormField
             labelName="Prompt"
             type="text"
             name="prompt"
             placeholder={
-              form.prompt ||
               'Type your prompt or click on the "Suprise me" button'
             }
             value={form.prompt}
             handleChange={handleChange}
             isSupriseMe
             handelSupriseMe={handleSupriseMe}
+            validate={validatePrompt}
           />
+          {errors.prompt && (
+            <div className="text-red-500 text-sm">Prompt required</div>
+          )}
           <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus-blue-500 w-64 p-3 h-64 flex justify-center items-center">
             {form.photo ? (
               <img
