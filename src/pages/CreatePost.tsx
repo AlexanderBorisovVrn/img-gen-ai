@@ -37,6 +37,7 @@ const CreatePost: FC<{}> = () => {
   const handleSupriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
     setForm({ ...form, prompt: randomPrompt });
+    errors.prompt = undefined;
   };
 
   const validateName = {
@@ -110,6 +111,7 @@ const CreatePost: FC<{}> = () => {
             handelSupriseMe={handleSupriseMe}
             validate={validatePrompt}
           />
+
           {errors.prompt && (
             <div className="text-red-500 text-sm">Prompt required</div>
           )}
