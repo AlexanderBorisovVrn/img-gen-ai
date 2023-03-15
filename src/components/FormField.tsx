@@ -1,5 +1,4 @@
 import React, { FC, MouseEventHandler } from "react";
-import { GrClose } from "react-icons/gr";
 
 interface IFormField {
   labelName: string;
@@ -11,7 +10,8 @@ interface IFormField {
   handelSupriseMe?: () => void;
   handleChange: (e: { target: HTMLInputElement }) => void;
   validate?: any;
-  handleClear: (event: React.MouseEvent<HTMLElement>)  => void
+  required?: boolean;
+  handleClear: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const FormField: FC<IFormField> = ({
@@ -25,6 +25,7 @@ export const FormField: FC<IFormField> = ({
   handleClear,
   isSupriseMe,
   validate,
+  required,
 }) => {
   return (
     <div>
@@ -33,7 +34,7 @@ export const FormField: FC<IFormField> = ({
           htmlFor="name"
           className="block text-sm font-medium text-gray-900"
         >
-          {labelName}
+          {labelName} {required ? (<span className="text-red-600">*</span>) : null}
         </label>
         {isSupriseMe && (
           <button

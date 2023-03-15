@@ -48,15 +48,15 @@ const CreatePost: FC<{}> = () => {
 
   }
   const validateName = {
-    ...register("name", { required: true, maxLength: 100, minLength: 1 }),
+    ...register("name", { maxLength: 100}),
   };
   const validatePrompt = {
     ...register("prompt", { required: true, maxLength: 1000, minLength: 1 }),
   };
 
   const generateImg = async () => {
-    if (errors.name) {
-      errors.name = undefined;
+    if (errors.prompt) {
+      return
     }
     try {
       setGeneratingImg(true);
@@ -122,6 +122,7 @@ const CreatePost: FC<{}> = () => {
             handleClear={handleClear}
             handelSupriseMe={handleSupriseMe}
             validate={validatePrompt}
+            required
           />
           {errors.prompt && (
             <div className="text-red-500 text-sm">Prompt required</div>
