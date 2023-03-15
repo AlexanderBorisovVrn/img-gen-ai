@@ -29,19 +29,23 @@ const CreatePost: FC<{}> = () => {
   const [form, setForm] = useState<IForm>(initialFormState);
   const [generatingImg, setGeneratingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const onSubmit = handleSubmit((data) => console.log(data));
 
+  const onSubmit = handleSubmit((data: IForm) => { });
   const handleChange = (e: { target: HTMLInputElement }) => {
+    const val = e.target.name as 'name' | 'prompt';
+    errors[val] = undefined;
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSupriseMe = () => {
-    const randomPrompt = getRandomPrompt(form.prompt);
+    const randomPrompt: string = getRandomPrompt(form.prompt);
     setForm({ ...form, prompt: randomPrompt });
-    errors.prompt = undefined;
   };
-  const handleClear = (event: React.MouseEvent<HTMLElement>) =>{
+
+  const handleClear = (event: React.MouseEvent<HTMLElement>) => {
     const target = event.target as HTMLButtonElement;
-    setForm({...form,[target.name]:''})
+    setForm({ ...form, [target.name]: '' })
+
   }
   const validateName = {
     ...register("name", { required: true, maxLength: 100, minLength: 1 }),
@@ -51,6 +55,9 @@ const CreatePost: FC<{}> = () => {
   };
 
   const generateImg = async () => {
+    if (errors.name) {
+      errors.name = undefined;
+    }
     try {
       setGeneratingImg(true);
       let response = await fetch("http://127.0.0.1:5000/creation", {
