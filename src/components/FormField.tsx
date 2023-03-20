@@ -8,10 +8,10 @@ interface IFormField {
   value: string;
   isSupriseMe?: boolean;
   handelSupriseMe?: () => void;
-  handleChange: (e: { target: HTMLInputElement }) => void;
+  handleChange:(e:React.FormEvent<HTMLInputElement>) => void;
   validate?: any;
   required?: boolean;
-  handleClear: (event: React.MouseEvent<HTMLElement>) => void;
+  handleClear?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const FormField: FC<IFormField> = ({
@@ -50,7 +50,7 @@ export const FormField: FC<IFormField> = ({
         <input
           {...validate}
           type={type}
-          autocomplete="off"
+          autoComplete="off"
           id={name}
           name={name}
           placeholder={placeholder}

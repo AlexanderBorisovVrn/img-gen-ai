@@ -15,7 +15,7 @@ const Loader= () => {
   height="64px"
   viewBox="0 0 128 128"
 >
-  <rect x="0" y="0" width="100%" height="100%" fill="currentColor" fill-opacity="0"/>
+  <rect x="0" y="0" width="100%" height="100%" fill="currentColor" fillOpacity="0"/>
   <g>
     <path
       d="M71 39.2V.4a63.6 63.6 0 0 1 33.96 14.57L77.68 42.24a25.53 25.53 0 0 0-6.7-3.03z"

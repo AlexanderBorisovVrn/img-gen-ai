@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import Loader from "../components/Loader";
 import { FormField } from "../components/FormField";
+import { Card } from '../components/Card'
 
 interface IRenderComponet {
   data: any;
@@ -24,13 +25,18 @@ export const RenderCards: FC<IRenderComponet> = ({
 const Home: FC<{}> = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [allPosts, setAllPosts] = useState<null | Array<string>>(null);
-
   const [searchText, setSearchText] = useState<string>("");
-
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setSearchText(e.currentTarget.value)
+  }
+  const handleClear = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLButtonElement;
+    setSearchText('')
+  }
   return (
     <section className="max-w-7xl mx-auto">
       <div>
-        <div className = ''>
+        <div className=''>
           <h1 className="font-bold text-2xl">The Showcase</h1>
           <p className="mt-2 text-[#666e76] text-[14px]">
             Browse trough a collection of visually stunning images generated
@@ -39,7 +45,16 @@ const Home: FC<{}> = () => {
         </div>
 
         <div className="mt-16">
-          {/* <FormField /> */}
+          <FormField
+            labelName="Find posts"
+            type="text"
+            name="Find posts"
+            placeholder='Find posts'
+            value={searchText}
+            handleChange={handleChange}
+            handleClear={handleClear}
+            required
+          />
         </div>
         <div className="mt-16">
           {loading ? (

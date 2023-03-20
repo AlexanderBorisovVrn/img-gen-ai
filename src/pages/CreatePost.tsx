@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState, SyntheticEvent } from "react";
+import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IoImageOutline } from "react-icons/io5";
@@ -31,10 +31,10 @@ const CreatePost: FC<{}> = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = handleSubmit((data: IForm) => { });
-  const handleChange = (e: { target: HTMLInputElement }) => {
-    const val = e.target.name as 'name' | 'prompt';
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.name as 'name' | 'prompt';
     errors[val] = undefined;
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.currentTarget.name]: e.currentTarget.value });
   };
 
   const handleSupriseMe = () => {
@@ -48,7 +48,7 @@ const CreatePost: FC<{}> = () => {
 
   }
   const validateName = {
-    ...register("name", { maxLength: 100}),
+    ...register("name", { maxLength: 100 }),
   };
   const validatePrompt = {
     ...register("prompt", { required: true, maxLength: 1000, minLength: 1 }),
@@ -71,12 +71,10 @@ const CreatePost: FC<{}> = () => {
           size: "512x512",
         }),
       });
-      const data = await response.text();
 
-      setForm({ ...form, photo: `data:image/png;base64, ${data}` });
       if (response.status === 200) {
         const data = await response.text();
-        setForm({ ...form, photo: `data:image/png;base64, ${data}` });
+        setForm({ ...form, photo: `data:image/png;charset=UTF-8;base64, ${data}` });
       } else {
         setForm(initialFormState);
       }
