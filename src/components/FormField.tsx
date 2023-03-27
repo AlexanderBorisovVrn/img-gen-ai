@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from "react";
+import React, { FC} from "react";
 
 interface IFormField {
   labelName: string;

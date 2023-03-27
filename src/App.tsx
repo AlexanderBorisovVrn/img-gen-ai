@@ -3,6 +3,7 @@ import { Home, CreatePost } from "./pages";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Logo } from "./components/Logo";
 /// <reference types="vite-svg-loader" />
+
 export const App: FC<{}> = () => {
   return (
     <BrowserRouter>
